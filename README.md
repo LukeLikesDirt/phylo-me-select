@@ -10,6 +10,21 @@ The method selects a subset of positive Moran’s eigenvectors (MEMs) that, when
 * Your model residuals show significant phylogenetic signal, violating independence assumptions
 * You are interested in removing rather than modelling the phylogenetic signal (in contrast to approaches like PGLS or `phylolm()`)
 
+## Installation
+
+You can install the development version of `phyloMEM` directly from GitHub using the `remotes` package:
+
+    # Install remotes
+    install.packages("remotes")
+
+    # Install phyloMEM from GitHub
+    remotes::install_github("LukeLikesDirt/phyloMEM")
+
+Alternatively, you can clone the repository and install manually:
+
+    git clone https://github.com/LukeLikesDirt/phyloMEM.git
+    R CMD INSTALL phyloMEM
+
 ## Key Features
 
 * Uses [`adephylo::orthobasis.phylo()`](https://github.com/adeverse/adephylo/) to compute MEMs from a phylogenetic tree
