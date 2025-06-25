@@ -26,8 +26,10 @@ This approach is based on and inspired by:
 ## Example
 
 Load required packages
-  library(ape)
-  library(adephylo)
+
+    library(ape)
+    
+    library(adephylo)
 
 Simulate a phylogenetic tree
   set.seed(1986)
