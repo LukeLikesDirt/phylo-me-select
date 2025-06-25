@@ -75,22 +75,10 @@ Fit a base model with residual phylogenetic autocorrelation
 
 Check residual phylogenetic signal
 
+    # Generate a proximity matrix using Abouheif's method
     prox <- adephylo::proxTips(tree, method = "Abouheif")
       
-    phylo.moran.test <- function(x, prox, nperm = 999, one.tailed = TRUE) {
-        obs_stat <- adephylo::abouheif.moran(x, prox)$obs
-        sim_stats <- replicate(nperm, {
-          x_perm <- sample(x)
-          adephylo::abouheif.moran(x_perm, prox, nrepet = 0)$obs
-        })
-        p_value <- if (one.tailed) {
-          (sum(sim_stats >= obs_stat) + 1) / (nperm + 1)
-        } else {
-          (sum(abs(sim_stats) >= abs(obs_stat)) + 1) / (nperm + 1)
-        }
-        return(list(obs = obs_stat, sim = sim_stats, pvalue = p_value))
-    }
-  
+    # Test residuals for phylogenetic signal using Abouheif's C
     moran_resid <- phylo.moran.test(residuals_base, prox)
   
     cat("Base model residual phylogenetic signal: Abouheif’s C =", moran_resid$obs,
