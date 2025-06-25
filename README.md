@@ -25,3 +25,94 @@ This approach is based on and inspired by:
 
 ## Example
 
+Load required packages
+  library(ape)
+  library(adephylo)
+
+Simulate a phylogenetic tree
+  set.seed(1986)
+  tree <- rtree(50)
+
+Simulate a trait with phylogenetic signal
+  trait <- rTraitCont(tree, model = "BM", sigma = 1)
+  names(trait) <- tree$tip.label
+
+Simulate a weakly phylogenetically structured predictor
+
+  predictor_phylo <- rTraitCont(tree, model = "BM", sigma = 0.3)
+  
+  predictor_noise <- rnorm(length(tree$tip.label), sd = 0.7)
+  
+  predictor <- predictor_phylo + predictor_noise
+  
+  names(predictor) <- tree$tip.label
+
+Check names and tips match
+
+  identical(names(trait), tree$tip.label)
+
+Fit a base model with residual phylogenetic autocorrelation
+
+  base_model <- lm(trait ~ predictor)
+  
+  residuals_base <- residuals(base_model)
+  
+  names(residuals_base) <- tree$tip.label
+
+Check residual phylogenetic signal
+
+  prox <- adephylo::proxTips(tree, method = "Abouheif")
+  
+  phylo.moran.test <- function(x, prox, nperm = 999, one.tailed = TRUE) {
+    obs_stat <- adephylo::abouheif.moran(x, prox)$obs
+    sim_stats <- replicate(nperm, {
+      x_perm <- sample(x)
+      adephylo::abouheif.moran(x_perm, prox, nrepet = 0)$obs
+    })
+    p_value <- if (one.tailed) {
+      (sum(sim_stats >= obs_stat) + 1) / (nperm + 1)
+    } else {
+      (sum(abs(sim_stats) >= abs(obs_stat)) + 1) / (nperm + 1)
+    }
+    return(list(obs = obs_stat, sim = sim_stats, pvalue = p_value))
+  }
+  
+  moran_resid <- phylo.moran.test(residuals_base, prox)
+  
+  cat("Base model residual phylogenetic signal: Abouheif’s C =", moran_resid$obs,
+      ", p =", moran_resid$pvalue, "\n")
+
+Compute phylogenetic MEMs
+
+ME_all <- orthobasis.phylo(tree, method = "Abouheif")
+
+attr(ME_all, "values")[1:5]  # First few eigenvalues
+
+Apply MIR selection on residuals
+
+res <- phylo.mem.select(residuals_base, ME_all, prox, verbose = TRUE)
+
+Add selected MEMs to base model
+
+  if (!is.null(res$ME.select)) {
+    MEM_selected <- res$ME.select
+    model_df <- data.frame(
+      trait = trait,
+      predictor = predictor,
+      MEM_selected
+    )
+    
+    final_model <- lm(trait ~ predictor + ., data = model_df)
+  
+  Test residuals of final model
+    
+    resid_final <- residuals(final_model)
+    
+    names(resid_final) <- tree$tip.label
+  
+    moran_final <- phylo.moran.test(resid_final, prox)
+    
+    cat("Final model residual phylogenetic signal: Abouheif’s C =", moran_final$obs,
+      ", p =", moran_final$pvalue, "\n")
+      
+}
