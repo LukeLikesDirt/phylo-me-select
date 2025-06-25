@@ -44,6 +44,7 @@ Load required packages
 
     library(ape)
     library(adephylo)
+    library(phyloMEM)
 
 Simulate a phylogenetic tree
   
