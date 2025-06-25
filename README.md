@@ -18,6 +18,9 @@ You can install the development version of `phyloMEM` directly from GitHub using
     install.packages("remotes")
 
     # Install phyloMEM from GitHub
+    if (!requireNamespace("remotes", quietly = TRUE)) {
+      install.packages("remotes")
+    }
     remotes::install_github("LukeLikesDirt/phyloMEM")
 
 Alternatively, you can clone the repository and install manually:
