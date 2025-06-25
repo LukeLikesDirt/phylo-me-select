@@ -14,9 +14,6 @@ The method selects a subset of positive Moran’s eigenvectors (MEMs) that, when
 
 You can install the development version of `phyloMEM` directly from GitHub using the `remotes` package:
 
-    # Install remotes
-    install.packages("remotes")
-
     # Install phyloMEM from GitHub
     if (!requireNamespace("remotes", quietly = TRUE)) {
       install.packages("remotes")
