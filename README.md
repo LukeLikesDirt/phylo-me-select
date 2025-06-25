@@ -2,7 +2,7 @@
 
 ## Overview
 
-`phyloMEM()` provides a phylogenetic adaptation of the MIR (minimisation of Moran’s I in the mesiduals) method implemented in [`adespatial::mem.select()`](https://github.com/adeverse/adespatial/). While `mem.select()` was designed to reduce spatial autocorrelation in ecological models, `phyloMEM()` uses a phylogenetic proximity matrix—such as those derived from patristic or Abouheif distances—to achieve the same goal in a phylogenetic context.
+`phyloMEM` provides a phylogenetic adaptation of the MIR (minimisation of Moran’s I in the mesiduals) method implemented in [`adespatial::mem.select()`](https://github.com/adeverse/adespatial/). While `mem.select()` was designed to reduce spatial autocorrelation in ecological models, `phyloMEM` uses a phylogenetic proximity matrix—such as those derived from patristic or Abouheif distances—to achieve the same goal in a phylogenetic context.
 
 The method selects a subset of positive Moran’s eigenvectors (MEMs) that, when added to a model, reduce residual phylogenetic autocorrelation. The approach is especially useful when:
 
