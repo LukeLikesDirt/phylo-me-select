@@ -6,15 +6,15 @@
 
 The method selects a subset of positive Moran’s eigenvectors (MEMs) that, when added to a model, reduce residual phylogenetic autocorrelation. The approach is especially useful when:
 
-* You aim to test functional or ecological predictors independently of phylogenetic structure.
-* Your model residuals show significant phylogenetic signal, violating independence assumptions.
-* You are interested in removing rather than modelling the phylogenetic signal (in contrast to approaches like PGLS or `phylolm()`).
+* You aim to test functional or ecological predictors independently of phylogenetic structure
+* Your model residuals show significant phylogenetic signal, violating independence assumptions
+* You are interested in removing rather than modelling the phylogenetic signal (in contrast to approaches like PGLS or `phylolm()`)
 
 ## Key Features
 
-* Uses `adephylo::orthobasis.phylo()` to compute MEMs from a phylogenetic tree.
-* Uses Abouheif’s Cmean and permutation-based testing via [`adephylo::abouheif.moran()`](https://github.com/adeverse/adephylo/).
-* Mirrors `mem.select()` from adespatial but is tailored for phylogenetic trees rather than spatial coordinates.
+* Uses [`adephylo::orthobasis.phylo()`](https://github.com/adeverse/adephylo/) to compute MEMs from a phylogenetic tree
+* Uses Abouheif’s Cmean and permutation-based testing via [`adephylo::abouheif.moran()`](https://github.com/adeverse/adephylo/)
+* Mirrors `mem.select()` from adespatial but is tailored for phylogenetic trees rather than spatial coordinates
 
 ## Background
 
